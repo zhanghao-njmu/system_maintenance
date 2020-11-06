@@ -26,7 +26,7 @@ for file in "${arr[@]}"; do
         prefix=${file%%.sam}
         samtools view -@ $threads -Shb $file -o ${prefix}.bam &>>$logfile | tee -a ${file}.toBam.log
 
-        if [[ $? == 0 ]] && [[ ! $(grep -iP "${error_pattern}" "${file}.toBam.log") ]]; then
+        if [[ ! $(grep -iP "${error_pattern}" "${file}.toBam.log") ]]; then
             rm -f $file
             echo -e "SAM-to-BAM conversion completed. New bam file:\n${prefix}.bam" &>>$logfile | tee -a ${file}.toBam.log
         else
@@ -42,7 +42,7 @@ for file in "${arr[@]}"; do
     if [[ ! -L $file ]] && [[ -f $file ]]; then
         echo -e "*** The file will be gzipped:\n$file" &>>$logfile | tee -a ${file}.togz.log
         pigz -p $threads -f $file &>>$logfile | tee -a ${file}.togz.log
-        if [[ $? == 0 ]] && [[ ! $(grep -iP "${error_pattern}" "${file}.togz.log") ]]; then
+        if [[ ! $(grep -iP "${error_pattern}" "${file}.togz.log") ]]; then
             echo -e "Compression completed. New gzipped file:\n${file}.gz" &>>$logfile | tee -a ${file}.togz.log
         else
             echo -e "ERROR! Compression failed:\n$file" &>>$logfile | tee -a ${file}.togz.log
