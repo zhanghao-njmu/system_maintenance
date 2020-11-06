@@ -22,7 +22,7 @@ echo -e "Compression type: sam ${filetype_togz[*]}" &>>$logfile
 arr=($(find "$data_dir" -type f | grep -iP ".*.sam$"))
 for file in "${arr[@]}"; do
     if [[ ! -L $file ]] && [[ -f $file ]]; then
-        echo -e ">The file will be convert to BAM:\n$file" &>>$logfile | tee -a ${file}.toBam.log
+        echo -e "*** The file will be convert to BAM:\n$file" &>>$logfile | tee -a ${file}.toBam.log
         prefix=${file%%.sam}
         samtools view -@ $threads -Shb $file -o ${prefix}.bam &>>$logfile | tee -a ${file}.toBam.log
 
@@ -37,10 +37,10 @@ done
 
 regex=$(printf -- "(.*.%s$)|" "${filetype_togz[@]}")
 regex=${regex%|}
-arr=($(find "$data_dir" -type f | grep -iP "regex"))
+arr=($(find "$data_dir" -type f | grep -iP "$regex"))
 for file in "${arr[@]}"; do
     if [[ ! -L $file ]] && [[ -f $file ]]; then
-        echo -e ">The file will be gzipped:\n$file" &>>$logfile | tee -a ${file}.togz.log
+        echo -e "*** The file will be gzipped:\n$file" &>>$logfile | tee -a ${file}.togz.log
         pigz -p $threads -f $file &>>$logfile | tee -a ${file}.togz.log
         if [[ $? == 0 ]] && [[ ! $(grep -iP "${error_pattern}" "${file}.togz.log") ]]; then
             echo -e "Compression completed. New gzipped file:\n${file}.gz" &>>$logfile | tee -a ${file}.togz.log
