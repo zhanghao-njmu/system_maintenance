@@ -11,7 +11,7 @@ samtools --version &>/dev/null
 
 ####### Start preocessing #######
 shell_folder=$(dirname $(readlink -f "$0"))
-logfile=$shell_folder/file_compress.log
+logfile=$shell_folder/File_Compression.log
 error_pattern="(error)|(fatal)|(corrupt)|(interrupt)|(EOFException)|(no such file or directory)"
 
 SECONDS=0
