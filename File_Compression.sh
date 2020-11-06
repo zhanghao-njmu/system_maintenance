@@ -11,14 +11,15 @@ samtools --version &>/dev/null
 }
 
 ####### Start preocessing ####### 
+shell_folder=$(dirname $(readlink -f "$0"))
+logfile=$shell_folder/file_compress.log
+error_pattern="(error)|(fatal)|(corrupt)|(interrupt)|(EOFException)|(no such file or directory)"
+
 SECONDS=0
 echo -e ">>> Compression start at $(date)\n" &>>$logfile
 echo -e "****************** Start Compression ******************\n" &>>$logfile
 echo -e "Compression type: sam ${filetype_togz[*]}" &>>$logfile
 
-shell_folder=$(dirname $(readlink -f "$0"))
-logfile=$shell_folder/file_compress.log
-error_pattern="(error)|(fatal)|(corrupt)|(interrupt)|(EOFException)|(no such file or directory)"
 
 arr=($(find "$data_dir" -type f |grep -iP ".*.sam$"))
 for file in "${arr[@]}"; do
