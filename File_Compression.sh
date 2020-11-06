@@ -3,14 +3,13 @@ data_dir="/ssd"
 filetype_togz=("fastq" "fq" "vcf")
 threads=16
 
-
 samtools --version &>/dev/null
 [ $? -ne 0 ] && {
     echo -e "Cannot find the command samtools.\n"
     exit 1
 }
 
-####### Start preocessing ####### 
+####### Start preocessing #######
 shell_folder=$(dirname $(readlink -f "$0"))
 logfile=$shell_folder/file_compress.log
 error_pattern="(error)|(fatal)|(corrupt)|(interrupt)|(EOFException)|(no such file or directory)"
@@ -20,8 +19,7 @@ echo -e "\n\n****************** Start Compression ******************" &>>$logfil
 echo -e ">>> Compression start at $(date)" &>>$logfile
 echo -e "Compression type: sam ${filetype_togz[*]}" &>>$logfile
 
-
-arr=($(find "$data_dir" -type f |grep -iP ".*.sam$"))
+arr=($(find "$data_dir" -type f | grep -iP ".*.sam$"))
 for file in "${arr[@]}"; do
     if [[ ! -L $file ]] && [[ -f $file ]]; then
         echo -e ">The file will be convert to BAM:\n$file" &>>$logfile | tee -a ${file}.toBam.log
@@ -39,7 +37,7 @@ done
 
 regex=$(printf -- "(.*.%s$)|" "${filetype_togz[@]}")
 regex=${regex%|}
-arr=($(find "$data_dir" -type f |grep -iP "regex"))
+arr=($(find "$data_dir" -type f | grep -iP "regex"))
 for file in "${arr[@]}"; do
     if [[ ! -L $file ]] && [[ -f $file ]]; then
         echo -e ">The file will be gzipped:\n$file" &>>$logfile | tee -a ${file}.pigz.log
