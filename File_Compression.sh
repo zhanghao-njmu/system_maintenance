@@ -40,12 +40,12 @@ regex=${regex%|}
 arr=($(find "$data_dir" -type f | grep -iP "regex"))
 for file in "${arr[@]}"; do
     if [[ ! -L $file ]] && [[ -f $file ]]; then
-        echo -e ">The file will be gzipped:\n$file" &>>$logfile | tee -a ${file}.pigz.log
-        pigz -p $threads -f $file &>>$logfile | tee -a ${file}.pigz.log
-        if [[ $? == 0 ]] && [[ ! $(grep -iP "${error_pattern}" "${file}.pigz.log") ]]; then
-            echo -e "Compression completed. New gzipped file:\n${file}.gz" &>>$logfile | tee -a ${file}.pigz.log
+        echo -e ">The file will be gzipped:\n$file" &>>$logfile | tee -a ${file}.togz.log
+        pigz -p $threads -f $file &>>$logfile | tee -a ${file}.togz.log
+        if [[ $? == 0 ]] && [[ ! $(grep -iP "${error_pattern}" "${file}.togz.log") ]]; then
+            echo -e "Compression completed. New gzipped file:\n${file}.gz" &>>$logfile | tee -a ${file}.togz.log
         else
-            echo -e "ERROR! Compression failed:\n$file" &>>$logfile | tee -a ${file}.pigz.log
+            echo -e "ERROR! Compression failed:\n$file" &>>$logfile | tee -a ${file}.togz.log
         fi
     fi
 done
