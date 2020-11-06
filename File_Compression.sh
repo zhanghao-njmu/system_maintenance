@@ -16,8 +16,8 @@ logfile=$shell_folder/file_compress.log
 error_pattern="(error)|(fatal)|(corrupt)|(interrupt)|(EOFException)|(no such file or directory)"
 
 SECONDS=0
-echo -e ">>> Compression start at $(date)\n" &>>$logfile
-echo -e "****************** Start Compression ******************\n" &>>$logfile
+echo -e "\n\n****************** Start Compression ******************" &>>$logfile
+echo -e ">>> Compression start at $(date)" &>>$logfile
 echo -e "Compression type: sam ${filetype_togz[*]}" &>>$logfile
 
 
@@ -54,4 +54,4 @@ done
 
 ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
 echo -e "\n$ELAPSED" &>>$logfile
-echo -e "****************** Compression Done ******************\n" &>>$logfile
+echo -e "****************** Compression Done ******************\n\n" &>>$logfile
