@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 ######################### Parameters ##########################################
 backup_arr=("/boot" "/data" "/etc" "/home" "/opt" "/reference" "/root" "/usr" "/var")
 backup_number=7

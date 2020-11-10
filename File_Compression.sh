@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 ######################### Parameters ##########################################
 data_dir="/ssd"
 filetype_tocompress=("fastq" "fq" "vcf" "sam")
