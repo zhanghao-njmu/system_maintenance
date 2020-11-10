@@ -6,8 +6,8 @@ threads=16
 ###############################################################################
 
 
-samtools --version &>/dev/null
-[ $? -ne 0 ] && {
+samtools &>/dev/null
+[ $? -eq 127 ] && {
     echo -e "Cannot find the command samtools.\n"
     exit 1
 }
