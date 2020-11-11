@@ -42,14 +42,7 @@ for dest in "${backup_arr[@]}"; do
     echo -e "*** Make a backup for the destination: $dest" &>>$logfile
     bkfile=${dest#/}
     bkfile=${bkfile//\//.}.tar.gz
-    tar $exclude_par -cpPf - $dest  | pigz -9 -p $threads >$backup_dir/$bkfile 2>>$logfile
-    if [[ $? != 0 ]]; then
-        echo -e "Backup failed: $dest\n" &>>$logfile
-        echo -e "****************** Backup Failed ******************\n\n\n" &>>$logfile
-        cat $logfile >>$targz_repo/Backup.log
-        rm -rf $backup_dir
-        exit 1
-    fi
+    tar $exclude_par -cpPf - $dest  2>>$logfile | pigz -9 -p $threads >$backup_dir/$bkfile 2>>$logfile
 
     if [[ ! $(grep -iP "${error_pattern}" "$logfile") ]]; then
         echo -e "Backup completed: $dest\n" &>>$logfile
