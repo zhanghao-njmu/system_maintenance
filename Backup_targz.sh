@@ -20,7 +20,7 @@ fi
 
 ####### Start preocessing #######
 bk_dir=$targz_repo/$(date +"%Y-%m-%d-%H.%M.%S")
-logfile=$bk_dir/Backup.log
+logfile=$bk_dir/Backup_individual.log
 error_pattern="(error)|(fatal)|(corrupt)|(interrupt)|(EOFException)|(no such file or directory)"
 
 if [[ $(ls -A $targz_repo) != "" ]]; then

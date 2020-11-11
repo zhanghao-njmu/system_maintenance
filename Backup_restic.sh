@@ -26,7 +26,6 @@ fi
 
 ####### Start preocessing #######
 logfile=$restic_repo/Backup.log
-error_pattern="(error)|(fatal)|(corrupt)|(interrupt)|(EOFException)|(no such file or directory)"
 
 SECONDS=0
 echo -e "****************** Start Backup ******************" &>>$logfile
@@ -44,11 +43,9 @@ if [[ $? != 0 ]]; then
     ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
     echo -e "$ELAPSED" &>>$logfile
     echo -e "****************** Backup Failed ******************\n\n\n" &>>$logfile
-    cat $logfile >>$restic_repo/Backup.log
     exit 1
 fi
 
 ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
 echo -e "$ELAPSED" &>>$logfile
 echo -e "****************** Backup successfully completed ******************\n\n\n" &>>$logfile
-cat $logfile >>$restic_repo/Backup.log
