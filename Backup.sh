@@ -36,7 +36,7 @@ echo -e "Backup destinations: ${backup_arr[*]}\n" &>>$logfile
 for dest in "${backup_arr[@]}"; do
     echo -e "*** Make a backup for the destination: $dest" &>>$logfile
     dest_trim=${dest#/}
-    dest_trim=${dest_trim//\//__}.tar.gz
+    dest_trim=${dest_trim//\//.}.tar.gz
     tar -cpPf - $dest | pigz -9 -p $threads >$backup_dir/$dest_trim 2>>$logfile
     pigz -t $backup_dir/$dest_trim 2>/dev/null
     if [[ $? != 0 ]]; then
