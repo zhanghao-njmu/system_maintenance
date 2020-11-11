@@ -22,9 +22,9 @@ backup_dir=$repo/$(date +"%Y-%m-%d-%H.%M.%S")
 logfile=$backup_dir/Backup.log
 error_pattern="(error)|(fatal)|(corrupt)|(interrupt)|(EOFException)|(no such file or directory)"
 
-if (( $(ls -d $repo/*/ | wc -l) >= $backup_number ));then
-    rm_num=$(( $(ls -d $repo/*/ | wc -l) - $backup_number + 1 ))
-    ls -dt $repo/*/ | tail -$rm_num |xargs -i rm -rf {}
+if (($(ls -d $repo/*/ | wc -l) >= $backup_number)); then
+    rm_num=$(($(ls -d $repo/*/ | wc -l) - $backup_number + 1))
+    ls -dt $repo/*/ | tail -$rm_num | xargs -i rm -rf {}
 fi
 
 mkdir -p $backup_dir
