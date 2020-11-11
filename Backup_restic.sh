@@ -45,7 +45,7 @@ if [[ $? != 0 ]]; then
     echo -e "Backup failed!\n" &>>$logfile
     ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
     echo -e "$ELAPSED" &>>$logfile
-    echo -e "****************** Backup Failed ******************\n\n\n" &>>$logfile
+    echo -e "****************** Backup failed ******************\n\n\n" &>>$logfile
     exit 1
 else
     echo -e "Backup completed.\n" &>>$logfile
