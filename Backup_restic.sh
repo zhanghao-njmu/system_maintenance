@@ -25,23 +25,14 @@ if [[ $? != 0 ]];then
 fi
 
 ####### Start preocessing #######
-backup_dir=$targz_repo/$(date +"%Y-%m-%d-%H.%M.%S")
-logfile=$backup_dir/Backup.log
+logfile=$restic_repo/Backup.log
 error_pattern="(error)|(fatal)|(corrupt)|(interrupt)|(EOFException)|(no such file or directory)"
-
-if [[ $(ls -A $targz_repo) != "" ]]; then
-    if (($(ls -d $targz_repo/*/ | wc -l) >= $bkNumber)); then
-        rm_num=$(($(ls -d $targz_repo/*/ | wc -l) - $bkNumber + 1))
-        ls -dt $targz_repo/*/ | tail -$rm_num | xargs -i rm -rf {}
-    fi
-fi
-
-mkdir -p $backup_dir
 
 SECONDS=0
 echo -e "****************** Start Backup ******************" &>>$logfile
 echo -e ">>> Backup start at $(date +'%Y-%m-%d %H:%M:%S')" &>>$logfile
 echo -e ">>> Backup destinations: ${backup_arr[*]}\n" &>>$logfile
+echo -e ">>> Backup exclude: ${exclude_arr[*]}\n" &>>$logfile
 
 exclude_par=$(printf -- " --exclude '%s'" "${exclude_arr[@]}")
 for dest in "${backup_arr[@]}"; do
