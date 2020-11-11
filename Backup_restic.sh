@@ -50,7 +50,6 @@ for dest in "${backup_arr[@]}"; do
         rm -rf $backup_dir
         exit 1
     fi
-
 done
 
 ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
