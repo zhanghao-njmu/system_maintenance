@@ -32,7 +32,7 @@ mkdir -p $backup_dir
 SECONDS=0
 echo -e "****************** Start Backup ******************" &>>$logfile
 echo -e ">>> Backup start at $(date +'%Y-%m-%d %H:%M:%S')" &>>$logfile
-echo -e "Backup destinations: ${backup_arr[*]}\n" &>>$logfile
+echo -e ">>> Backup destinations: ${backup_arr[*]}\n" &>>$logfile
 
 for dest in "${backup_arr[@]}"; do
     echo -e "*** Make a backup for the destination: $dest" &>>$logfile
