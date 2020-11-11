@@ -17,15 +17,14 @@ if [[ ! -d $repo ]]; then
     exit 1
 fi
 
-
 ####### Start preocessing #######
 backup_dir=$repo/$(date +"%Y%m%d%H%M%S")
 logfile=$backup_dir/Backup.log
 error_pattern="(error)|(fatal)|(corrupt)|(interrupt)|(EOFException)|(no such file or directory)"
 
-if (( $(ls -d $repo/*/ | wc -l) >= $backup_number ));then
-    rm_num=$(( $(ls -d $repo/*/ | wc -l) - $backup_number + 1 ))
-    ls -dt $repo/*/ | tail -$rm_num |xargs -i rm -rf {}
+if (($(ls -d $repo/*/ | wc -l) >= $backup_number)); then
+    rm_num=$(($(ls -d $repo/*/ | wc -l) - $backup_number + 1))
+    ls -dt $repo/*/ | tail -$rm_num | xargs -i rm -rf {}
 fi
 
 mkdir -p $backup_dir
@@ -35,20 +34,19 @@ echo -e "****************** Start Backup ******************" &>>$logfile
 echo -e ">>> Backup start at $(date)" &>>$logfile
 echo -e ">>> Backup destinations: ${backup_arr[*]}\n" &>>$logfile
 
-
 for dest in "${backup_arr[@]}"; do
     echo -e "*** Make a backup for the destination: $dest" &>>$logfile
-    dest_trim=${dest#/}
-    dest_trim=${dest_trim//\//.}.tar.gz
-    tar -cpPf - $dest | pigz -9 -p $threads >$backup_dir/$dest_trim 2>>$logfile
-    pigz -t $backup_dir/$dest_trim 2>/dev/null
-    #if [[ $? != 0 ]]; then
+    bkfile=${dest#/}
+    bkfile=${bkfile//\//.}.tar.gz
+    tar -cpPf - $dest | pigz -9 -p $threads >$backup_dir/$bkfile 2>>$logfile
+    pigz -t $backup_dir/$bkfile 2>>$logfile
+    if [[ $? != 0 ]]; then
         echo -e "Backup failed: $dest\n" &>>$logfile
         echo -e "****************** Backup Failed ******************\n\n\n" &>>$logfile
         cat $logfile >>$repo/Backup.log
         rm -rf $backup_dir
         exit 1
-    #fi
+    fi
 
     if [[ ! $(grep -iP "${error_pattern}" "$logfile") ]]; then
         echo -e "Backup completed: $dest" &>>$logfile
