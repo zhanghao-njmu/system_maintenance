@@ -2,7 +2,7 @@
 ######################### Parameters ##########################################
 backup_arr=("/")
 exclude_arr=("/dev" "/media" "/mnt" "/proc" "/run" "/sys" "/tmp" "/var/tmp")
-restic_repo="/mnt/usb1/restic"
+restic_repo="/mnt/usb2/tmp/restic/"
 RESTIC_PASSWORD="b206shalab"
 ###############################################################################
 
@@ -13,7 +13,14 @@ restic &>/dev/null
 }
 
 if [[ ! -d $restic_repo ]]; then
-    echo -e "ERROR! Cannot find the repository directory: $targz_repo"
+    echo -e "ERROR! Cannot find the repository directory: $restic_repo"
+    exit 1
+fi
+
+export RESTIC_PASSWORD=$RESTIC_PASSWORD
+restic -r $restic_repo check &>/dev/null
+if [[ $? != 0 ]];then
+    echo -e "ERROR! restic check failed for the repository directory: $restic_repo"
     exit 1
 fi
 
