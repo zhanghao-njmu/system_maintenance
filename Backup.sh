@@ -30,7 +30,7 @@ mkdir -p $backup_dir
 SECONDS=0
 echo -e "\n\n****************** Start Backup ******************" &>>$logfile
 echo -e ">>> Backup start at $(date)" &>>$logfile
-echo -e "Backup destinations: ${backup_arr[*]}" &>>$logfile
+echo -e "Backup destinations: ${backup_arr[*]}\n" &>>$logfile
 
 
 for dest in "${backup_arr[@]}"; do
