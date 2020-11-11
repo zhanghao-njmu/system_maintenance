@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ######################### Parameters ##########################################
-backup_arr=("/boot" "/data" "/etc" "/home" "/opt" "/reference" "/root" "/usr" "/var")
+backup_arr=("/boot" "/data" "/etc" "/home" "/opt" "/reference" "/root" "/srv" "/usr" "/var")
 backup_number=7
 repo="/mnt/usb2/backup"
 threads=16
