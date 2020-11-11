@@ -32,7 +32,7 @@ SECONDS=0
 echo -e "****************** Start Backup ******************" &>>$logfile
 echo -e ">>> Backup start at $(date +'%Y-%m-%d %H:%M:%S')" &>>$logfile
 echo -e ">>> Backup targets: ${backup_arr[*]}" &>>$logfile
-echo -e ">>> Backup exclude: ${exclude_arr[*]}\n" &>>$logfile
+echo -e ">>> Backup targets excluding: ${exclude_arr[*]}\n" &>>$logfile
 
 exclude_par=$(printf -- " --exclude '%s'" "${exclude_arr[@]}")
 for target in "${backup_arr[@]}"; do
