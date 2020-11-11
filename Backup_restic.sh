@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 ######################### Parameters ##########################################
 backup_arr=("/boot" "/data" "/etc" "/home" "/opt" "/reference" "/root" "/srv" "/usr" "/var")
-backup_number=7
-repo="/mnt/usb2/backup"
-threads=16
+restic_repo="/mnt/usb2/backup"
 ###############################################################################
 
 pigz --version &>/dev/null
