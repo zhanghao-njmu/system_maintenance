@@ -6,7 +6,7 @@ repo="/mnt/usb2/backup"
 threads=16
 ###############################################################################
 
-pigz &>/dev/null
+pigz --version &>/dev/null
 [ $? -eq 127 ] && {
     echo -e "Cannot find the command pigz.\n"
     exit 1
