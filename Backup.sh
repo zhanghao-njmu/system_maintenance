@@ -22,8 +22,9 @@ backup_dir=$repo/$(date +"%Y%m%d%H%M%S")
 logfile=$backup_dir/Backup.log
 error_pattern="(error)|(fatal)|(corrupt)|(interrupt)|(EOFException)|(no such file or directory)"
 
-
-
+if (( $(ls -d $repo/*/ | wc -l) >= $backup_number ));then
+    echo "larger than 7"
+fi
 
 mkdir -p $backup_dir
 
