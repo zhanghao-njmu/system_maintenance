@@ -3,15 +3,16 @@
 backup_arr=("/boot" "/data" "/etc" "/home" "/opt" "/reference" "/root" "/srv" "/usr" "/var")
 exclude_arr=("")
 restic_repo="/mnt/usb2/backup"
+RESTIC_PASSWORD="b206shalab"
 ###############################################################################
 
-pigz --version &>/dev/null
+restic &>/dev/null
 [ $? -eq 127 ] && {
-    echo -e "Cannot find the command pigz.\n"
+    echo -e "Cannot find the command restic.\n"
     exit 1
 }
 
-if [[ ! -d $targz_repo ]]; then
+if [[ ! -d $restic_repo ]]; then
     echo -e "ERROR! Cannot find the repository directory: $targz_repo"
     exit 1
 fi
