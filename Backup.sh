@@ -49,7 +49,7 @@ for dest in "${backup_arr[@]}"; do
     fi
 
     if [[ ! $(grep -iP "${error_pattern}" "$logfile") ]]; then
-        echo -e "Backup completed: $dest" &>>$logfile
+        echo -e "Backup completed: $dest\n" &>>$logfile
     else
         echo -e "Backup failed: $dest\n" &>>$logfile
         echo -e "****************** Backup Failed ******************\n\n\n" &>>$logfile
@@ -61,6 +61,6 @@ for dest in "${backup_arr[@]}"; do
 done
 
 ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
-echo -e "\n$ELAPSED" &>>$logfile
+echo -e "$ELAPSED" &>>$logfile
 echo -e "****************** Backup successfully completed ******************\n\n\n" &>>$logfile
 cat $logfile >>$repo/Backup.log
