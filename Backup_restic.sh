@@ -2,7 +2,7 @@
 ######################### Parameters ##########################################
 backup_arr=("/boot" "/data" "/etc" "/home" "/opt" "/reference" "/root" "/srv" "/usr" "/var")
 exclude_arr=("")
-restic_repo="/mnt/usb2/backup"
+restic_repo="/mnt/usb1/restic"
 RESTIC_PASSWORD="b206shalab"
 ###############################################################################
 
