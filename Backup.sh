@@ -62,5 +62,5 @@ done
 
 ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
 echo -e "\n$ELAPSED" &>>$logfile
-echo -e "****************** Backup Done ******************\n\n\n" &>>$logfile
+echo -e "****************** Backup successfully completed ******************\n\n\n" &>>$logfile
 cat $logfile >>$repo/Backup.log
