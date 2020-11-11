@@ -52,7 +52,7 @@ for target in "${backup_arr[@]}"; do
         ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
         echo -e "$ELAPSED" &>>$logfile
         echo -e "****************** Backup Failed ******************\n\n\n" &>>$logfile
-        cat $logfile >>$targz_repo/Backup.log
+        cat $logfile >>$targz_repo/AllBackup.log
         rm -rf $bk_dir
         exit 1
     fi
@@ -61,4 +61,4 @@ done
 ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
 echo -e "$ELAPSED" &>>$logfile
 echo -e "****************** Backup successfully completed ******************\n\n\n" &>>$logfile
-cat $logfile >>$targz_repo/Backup.log
+cat $logfile >>$targz_repo/AllBackup.log

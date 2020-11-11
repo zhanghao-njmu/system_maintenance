@@ -25,7 +25,7 @@ if [[ $? != 0 ]]; then
 fi
 
 ####### Start preocessing #######
-logfile=$restic_repo/Backup.log
+logfile=$restic_repo/AllBackup.log
 
 SECONDS=0
 echo -e "****************** Start Backup ******************" &>>$logfile
@@ -33,19 +33,24 @@ echo -e ">>> Backup start at $(date +'%Y-%m-%d %H:%M:%S')" &>>$logfile
 echo -e ">>> Backup targets: ${backup_arr[*]}" &>>$logfile
 echo -e ">>> Backup targets excluding: ${exclude_arr[*]}\n" &>>$logfile
 
+echo -e "*** Make a restic backup for the targets" &>>$logfile
 exclude_par=$(printf -- ",%s" "${exclude_arr[@]}")
 cmd="restic -r $restic_repo backup --quiet --exclude={${exclude_par%,}} ${backup_arr[*]} "
+
+echo -e "*** Run restic command: $cmd" &>>$logfile
 #echo "$cmd"
 eval $cmd &>>$logfile
 
 if [[ $? != 0 ]]; then
-    echo -e "Backup failed: ${backup_arr[*]}\n" &>>$logfile
+    echo -e "Backup failed!\n" &>>$logfile
     ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
     echo -e "$ELAPSED" &>>$logfile
     echo -e "****************** Backup Failed ******************\n\n\n" &>>$logfile
     exit 1
+else
+    echo -e "Backup completed.\n" &>>$logfile
+    ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
+    echo -e "$ELAPSED" &>>$logfile
+    echo -e "****************** Backup successfully completed ******************\n\n\n" &>>$logfile
 fi
 
-ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
-echo -e "$ELAPSED" &>>$logfile
-echo -e "****************** Backup successfully completed ******************\n\n\n" &>>$logfile
