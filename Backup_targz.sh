@@ -19,8 +19,8 @@ if [[ ! -d $targz_repo ]]; then
 fi
 
 ####### Start preocessing #######
-backup_dir=$targz_repo/$(date +"%Y-%m-%d-%H.%M.%S")
-logfile=$backup_dir/Backup.log
+bk_dir=$targz_repo/$(date +"%Y-%m-%d-%H.%M.%S")
+logfile=$bk_dir/Backup.log
 error_pattern="(error)|(fatal)|(corrupt)|(interrupt)|(EOFException)|(no such file or directory)"
 
 if [[ $(ls -A $targz_repo) != "" ]]; then
@@ -30,28 +30,30 @@ if [[ $(ls -A $targz_repo) != "" ]]; then
     fi
 fi
 
-mkdir -p $backup_dir
+mkdir -p $bk_dir
 
 SECONDS=0
 echo -e "****************** Start Backup ******************" &>>$logfile
 echo -e ">>> Backup start at $(date +'%Y-%m-%d %H:%M:%S')" &>>$logfile
-echo -e ">>> Backup destinations: ${backup_arr[*]}" &>>$logfile
+echo -e ">>> Backup targets: ${backup_arr[*]}" &>>$logfile
 echo -e ">>> Backup exclude: ${exclude_arr[*]}\n" &>>$logfile
 
 exclude_par=$(printf -- " --exclude '%s'" "${exclude_arr[@]}")
-for dest in "${backup_arr[@]}"; do
-    echo -e "*** Make a backup for the destination: $dest" &>>$logfile
-    bkfile=${dest#/}
+for target in "${backup_arr[@]}"; do
+    echo -e "*** Make a backup for the target: $target" &>>$logfile
+    bkfile=${target#/}
     bkfile=${bkfile//\//.}.tar.gz
-    tar $exclude_par -cpPf - $dest 2>>$logfile | pigz -9 -p $threads >$backup_dir/$bkfile 2>>$logfile
+    tar $exclude_par -cpPf - $target 2>>$logfile | pigz -9 -p $threads >$bk_dir/$bkfile 2>>$logfile
 
     if [[ ! $(grep -iP "${error_pattern}" "$logfile") ]]; then
-        echo -e "Backup completed: $dest\n" &>>$logfile
+        echo -e "Backup completed: $target\n" &>>$logfile
     else
-        echo -e "Backup failed: $dest\n" &>>$logfile
+        echo -e "Backup failed: $target\n" &>>$logfile
+        ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
+        echo -e "$ELAPSED" &>>$logfile
         echo -e "****************** Backup Failed ******************\n\n\n" &>>$logfile
         cat $logfile >>$targz_repo/Backup.log
-        rm -rf $backup_dir
+        rm -rf $bk_dir
         exit 1
     fi
 done
