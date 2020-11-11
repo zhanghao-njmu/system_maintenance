@@ -39,7 +39,6 @@ for dest in "${backup_arr[@]}"; do
     bkfile=${dest#/}
     bkfile=${bkfile//\//.}.tar.gz
     tar -cpPf - $dest | pigz -9 -p $threads >$backup_dir/$bkfile 2>>$logfile
-    pigz -t $backup_dir/$bkfile 2>>$logfile
     if [[ $? != 0 ]]; then
         echo -e "Backup failed: $dest\n" &>>$logfile
         echo -e "****************** Backup Failed ******************\n\n\n" &>>$logfile
