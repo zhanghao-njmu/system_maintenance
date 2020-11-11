@@ -30,13 +30,15 @@ mkdir -p $backup_dir
 SECONDS=0
 echo -e "\n\n****************** Start Backup ******************" &>>$logfile
 echo -e ">>> Backup start at $(date)" &>>$logfile
-echo -e "Backup destination: ${backup_arr[*]}" &>>$logfile
+echo -e "Backup destinations: ${backup_arr[*]}" &>>$logfile
 
 
 for dest in "${backup_arr[@]}"; do
     echo -e "*** Make a backup for the destination: $dest" &>>$logfile
-    tar cPf - $dest | pigz -9 -p $threads >$backup_dir/${${dest#/}//\//__}.tar.gz 2>>$logfile
-    pigz -t $backup_dir/${${dest#/}//\//__}.tar.gz 2>/dev/null
+    dest_trim=${dest#/}
+    dest_trim=${dest_trim//\//__}.tar.gz
+    tar cPf - $dest | pigz -9 -p $threads >$backup_dir/$dest_trim 2>>$logfile
+    pigz -t $backup_dir/$dest_trim 2>/dev/null
     if [[ $? != 0 ]]; then
         echo -e "ERROR! Backup failed: $dest" &>>$logfile
         exit 1
