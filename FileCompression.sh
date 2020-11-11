@@ -14,7 +14,7 @@ samtools &>/dev/null
 
 ####### Start preocessing #######
 script_folder=$(dirname $(readlink -f "$0"))
-logfile=$script_folder/File_Compression.log
+logfile=$script_folder/FileCompression.log
 error_pattern="(error)|(fatal)|(corrupt)|(interrupt)|(EOFException)|(no such file or directory)"
 
 SECONDS=0
@@ -57,5 +57,5 @@ for file in "${arr[@]}"; do
 done
 
 ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
-echo -e "\n$ELAPSED" &>>$logfile
-echo -e "****************** Compression Done ******************\n\n" &>>$logfile
+echo -e "$ELAPSED" &>>$logfile
+echo -e "****************** Compression successfully completed ******************\n\n" &>>$logfile
