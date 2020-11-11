@@ -19,7 +19,7 @@ fi
 
 export RESTIC_PASSWORD=$RESTIC_PASSWORD
 restic -r $restic_repo check &>/dev/null
-if [[ $? != 0 ]];then
+if [[ $? != 0 ]]; then
     echo -e "ERROR! restic check failed for the repository directory: $restic_repo"
     exit 1
 fi
@@ -34,25 +34,21 @@ echo -e ">>> Backup start at $(date +'%Y-%m-%d %H:%M:%S')" &>>$logfile
 echo -e ">>> Backup targets: ${backup_arr[*]}" &>>$logfile
 echo -e ">>> Backup targets excluding: ${exclude_arr[*]}\n" &>>$logfile
 
-exclude_par=$(printf -- " --exclude '%s'" "${exclude_arr[@]}")
-for target in "${backup_arr[@]}"; do
-    echo -e "*** Make a backup for the target: $target" &>>$logfile
-    bkfile=${target#/}
-    bkfile=${bkfile//\//.}.tar.gz
-    tar $exclude_par -cpPf - $target 2>>$logfile | pigz -9 -p $threads >$backup_dir/$bkfile 2>>$logfile
+exclude_par=$(printf -- ",%s" "${exclude_arr[@]}")
+cmd="restic -r $restic_repo backup --quiet --exclude={${exclude_par%,}} ${backup_arr[*]} "
+#echo "$cmd"
+eval $cmd &>>$logfile
 
-    if [[ ! $(grep -iP "${error_pattern}" "$logfile") ]]; then
-        echo -e "Backup completed: $target\n" &>>$logfile
-    else
-        echo -e "Backup failed: $target\n" &>>$logfile
-        echo -e "****************** Backup Failed ******************\n\n\n" &>>$logfile
-        cat $logfile >>$targz_repo/Backup.log
-        rm -rf $backup_dir
-        exit 1
-    fi
-done
+if [[ $? != 0 ]]; then
+    echo -e "Backup failed: ${backup_arr[*]}\n" &>>$logfile
+    ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
+    echo -e "$ELAPSED" &>>$logfile
+    echo -e "****************** Backup Failed ******************\n\n\n" &>>$logfile
+    cat $logfile >>$restic_repo/Backup.log
+    exit 1
+fi
 
 ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
 echo -e "$ELAPSED" &>>$logfile
 echo -e "****************** Backup successfully completed ******************\n\n\n" &>>$logfile
-cat $logfile >>$targz_repo/Backup.log
+cat $logfile >>$restic_repo/Backup.log
