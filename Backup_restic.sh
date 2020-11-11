@@ -37,7 +37,7 @@ echo -e "*** Make a restic backup for the targets" &>>$logfile
 exclude_par=$(printf -- "%s," "${exclude_arr[@]}")
 cmd="restic -r $restic_repo backup --quiet --exclude={${exclude_par%,}} ${backup_arr[*]} "
 
-echo -e "*** Run restic command: \n    $cmd" &>>$logfile
+echo -e "*** Run restic command: \n$cmd" &>>$logfile
 #echo "$cmd"
 eval $cmd &>>$logfile
 
