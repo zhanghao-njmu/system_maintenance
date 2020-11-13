@@ -3,7 +3,7 @@
 backup_arr=("/boot" "/data" "/etc" "/home" "/opt" "/reference" "/root" "/srv" "/usr" "/var")
 exclude_arr=("")
 targz_repo="/mnt/usb2/Backup_targz"
-bkNumber=7
+bkNumber=4
 threads=16
 ###############################################################################
 
