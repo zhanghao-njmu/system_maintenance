@@ -19,14 +19,15 @@ if [[ ! -d $targz_repo ]]; then
 fi
 
 ####### Start preocessing #######
-bk_dir=$targz_repo/$(date +"%Y-%m-%d-%H.%M.%S")
+bk_dir=$targz_repo/bk_$(date +"%Y-%m-%d-%H.%M.%S")
 logfile=$bk_dir/Backup_individual.log
 error_pattern="(error)|(fatal)|(corrupt)|(interrupt)|(EOFException)|(no such file or directory)"
 
-if [[ $(ls -A $targz_repo) != "" ]]; then
-    if (($(ls -d $targz_repo/*/ | wc -l) >= $bkNumber)); then
-        rm_num=$(($(ls -d $targz_repo/*/ | wc -l) - $bkNumber + 1))
-        ls -dt $targz_repo/*/ | tail -$rm_num | xargs -i rm -rf {}
+bk_dir_existed=($(find $targz_repo -mindepth 1 -maxdepth 1 -type d -name "bk_*"))
+if (( ${#bk_dir_existed[*]} >= 1 )); then
+    if (($(ls -d $targz_repo/bk_*/ | wc -l) >= $bkNumber)); then
+        rm_num=$(($(ls -d $targz_repo/bk_*/ | wc -l) - $bkNumber + 1))
+        ls -dt $targz_repo/bk_*/ | tail -$rm_num | xargs -i rm -rf {}
     fi
 fi
 
