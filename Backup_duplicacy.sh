@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 ######################### Parameters ##########################################
-id="archive_cold"
+snapshot_id="archive_backup"
 repository="/archive"
 storage="/archive_cold/Backup_duplicacy"
-filters=("")
-DUPLICACY_PASSWORD="b206shalab"
+uploading_threads=16
 broadcast="TRUE"
 ###############################################################################
 
@@ -14,33 +13,40 @@ duplicacy &>/dev/null
     exit 1
 }
 
-if [[ ! -d $duplicacy_repo ]]; then
-    echo -e "ERROR! Cannot find the repository directory: $duplicacy_repo"
+if [[ ! -d $repository ]]; then
+    echo -e "ERROR! Cannot find the repository directory (the directory to be backed up): $repository"
     exit 1
 fi
-cd 
 
-export DUPLICACY_PASSWORD=$DUPLICACY_PASSWORD
-duplicacy -r $restic_repo check &>/dev/null
+if [[ ! -d $storage ]]; then
+    echo -e "ERROR! Cannot find the storage directory (the directory used to store data): $storage"
+    exit 1
+fi
+
+cd $repository
+
+duplicacy check &>/dev/null
 if [[ $? != 0 ]]; then
-    echo -e "ERROR! restic check failed for the repository directory: $restic_repo"
+    echo -e "ERROR! duplicacy check failed. Please make sure repository or storage has been initialized."
+    echo -e "One can use the command to initialize: \ncd $repository;duplicacy init $snapshot_id $storage"
     exit 1
 fi
 
 ####### Start preocessing #######
-logfile=$restic_repo/AllBackup.log
+logfile=$storage/AllBackup.log
 
 SECONDS=0
 echo -e "****************** Start Backup ******************" &>>$logfile
 echo -e ">>> Backup start at $(date +'%Y-%m-%d %H:%M:%S')" &>>$logfile
-echo -e ">>> Backup targets: ${backup_arr[*]}" &>>$logfile
-echo -e ">>> Backup targets excluding: ${exclude_arr[*]}\n" &>>$logfile
+echo -e ">>> Backup repository: ${repository}" &>>$logfile
+echo -e ">>> Backup storage: ${storage}" &>>$logfile
+echo -e ">>> Backup filters: ${filters[*]}\n" &>>$logfile
 
-echo -e "*** Make a restic backup for the targets" &>>$logfile
-exclude_par=$(printf -- "%s," "${exclude_arr[@]}")
-cmd="restic -r $restic_repo backup --quiet --exclude={${exclude_par%,}} ${backup_arr[*]} "
+echo -e "*** Make a duplicacy backup for the repository" &>>$logfile
+tag="$(date +'%Y-%m-%d %H:%M:%S')"
+cmd="duplicacy backup -storage $storage -threads $uploading_threads -t \"$tag\" -stats"
 
-echo -e "*** Run restic command: \n$cmd" &>>$logfile
+echo -e "*** Run duplicacy command: \n$cmd" &>>$logfile
 #echo "$cmd"
 eval $cmd &>>$logfile
 
@@ -50,7 +56,7 @@ if [[ $? != 0 ]]; then
     echo -e "$ELAPSED" &>>$logfile
     echo -e "****************** Backup failed ******************\n\n\n" &>>$logfile
     if [[ $broadcast == "TRUE" ]]; then
-        echo -e "\n>>> Backup_targz: $(date +'%Y-%m-%d %H:%M:%S') Backup failed! Please check the log: $restic_repo/AllBackup.log\n" >>/etc/motd
+        echo -e "\n>>> Backup_duplicacy: $(date +'%Y-%m-%d %H:%M:%S') Backup failed! Please check the log: $storage/AllBackup.log\n" >>/etc/motd
     fi
     exit 1
 else
