@@ -39,8 +39,7 @@ SECONDS=0
 echo -e "****************** Start Backup ******************" &>>$logfile
 echo -e ">>> Backup start at $(date +'%Y-%m-%d %H:%M:%S')" &>>$logfile
 echo -e ">>> Backup repository: ${repository}" &>>$logfile
-echo -e ">>> Backup storage: ${storage}" &>>$logfile
-echo -e ">>> Backup filters: ${filters[*]}\n" &>>$logfile
+echo -e ">>> Backup storage: ${storage}\n" &>>$logfile
 
 echo -e "*** Make a duplicacy backup for the repository" &>>$logfile
 tag="bk_$(date +"%Y-%m-%d-%H.%M.%S")"
