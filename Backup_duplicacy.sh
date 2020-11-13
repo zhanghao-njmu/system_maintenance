@@ -28,7 +28,7 @@ cd $repository
 duplicacy check &>/dev/null
 if [[ $? != 0 ]]; then
     echo -e "ERROR! duplicacy check failed. Please make sure repository or storage has been initialized."
-    echo -e "One can use the command to initialize: \ncd $repository; rm -rf .duplicacy ;duplicacy init $snapshot_id $storage"
+    echo -e "One can use the command to initialize: \nrm -rf $repository/.duplicacy ;duplicacy init -repository $repository $snapshot_id $storage "
     exit 1
 fi
 
