@@ -43,8 +43,8 @@ echo -e ">>> Backup storage: ${storage}" &>>$logfile
 echo -e ">>> Backup filters: ${filters[*]}\n" &>>$logfile
 
 echo -e "*** Make a duplicacy backup for the repository" &>>$logfile
-tag="$(date +'%Y-%m-%d %H:%M:%S')"
-cmd="duplicacy backup -storage $storage -threads $uploading_threads -t \"$tag\" -stats"
+tag="bk_$(date +"%Y-%m-%d-%H.%M.%S")"
+cmd="duplicacy backup -storage $storage -threads $uploading_threads -t \"$tag\""
 
 echo -e "*** Run duplicacy command: \n$cmd" &>>$logfile
 #echo "$cmd"
