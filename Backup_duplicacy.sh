@@ -1,25 +1,27 @@
 #!/usr/bin/env bash
 ######################### Parameters ##########################################
-backup_arr=("/archive")
-exclude_arr=("")
-restic_repo="/archive_cold/Backup_restic/"
-RESTIC_PASSWORD="b206shalab"
+id="archive_cold"
+repository="/archive"
+storage="/archive_cold/Backup_duplicacy"
+filters=("")
+DUPLICACY_PASSWORD="b206shalab"
 broadcast="TRUE"
 ###############################################################################
 
-restic &>/dev/null
+duplicacy &>/dev/null
 [ $? -eq 127 ] && {
-    echo -e "Cannot find the command restic.\n"
+    echo -e "Cannot find the command duplicacy.\n"
     exit 1
 }
 
-if [[ ! -d $restic_repo ]]; then
-    echo -e "ERROR! Cannot find the repository directory: $restic_repo"
+if [[ ! -d $duplicacy_repo ]]; then
+    echo -e "ERROR! Cannot find the repository directory: $duplicacy_repo"
     exit 1
 fi
+cd 
 
-export RESTIC_PASSWORD=$RESTIC_PASSWORD
-restic -r $restic_repo check &>/dev/null
+export DUPLICACY_PASSWORD=$DUPLICACY_PASSWORD
+duplicacy -r $restic_repo check &>/dev/null
 if [[ $? != 0 ]]; then
     echo -e "ERROR! restic check failed for the repository directory: $restic_repo"
     exit 1
