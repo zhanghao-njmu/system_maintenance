@@ -3,7 +3,7 @@
 backup_arr=("/boot" "/etc" "/home" "/opt" "/root" "/srv" "/usr" "/var")
 exclude_arr=("")
 targz_repo="/archive/system_backup/"
-bkNumber=4
+bkNumber=3
 threads=16
 ###############################################################################
 
