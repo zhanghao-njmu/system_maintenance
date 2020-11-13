@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 ######################### Parameters ##########################################
-backup_arr=("/")
-exclude_arr=("/dev" "/media" "/mnt" "/proc" "/run" "/sys" "/tmp" "/var/tmp")
-restic_repo="/mnt/usb1/Backup_restic/"
+backup_arr=("/archive")
+exclude_arr=("")
+restic_repo="/archive_cold/Backup_restic/"
 RESTIC_PASSWORD="b206shalab"
 ###############################################################################
 
