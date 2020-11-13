@@ -48,7 +48,7 @@ if [[ $? != 0 ]]; then
     echo -e "$ELAPSED" &>>$logfile
     echo -e "****************** Backup failed ******************\n\n\n" &>>$logfile
     if [[ $broadcast == "TRUE" ]]; then
-        echo -e ">>> Backup_targz: $(date +'%Y-%m-%d %H:%M:%S') Backup failed! Please check the log: $restic_repo/AllBackup.log\n" >>/etc/motd
+        echo -e "\n>>> Backup_targz: $(date +'%Y-%m-%d %H:%M:%S') Backup failed! Please check the log: $restic_repo/AllBackup.log\n" >>/etc/motd
     fi
     exit 1
 else
