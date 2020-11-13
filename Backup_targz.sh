@@ -57,7 +57,7 @@ for target in "${backup_arr[@]}"; do
         cat $logfile >>$targz_repo/AllBackup.log
         rm -rf $bk_dir
         if [[ $broadcast == "TRUE" ]]; then
-            echo -e "Backup failed! Please check the log: $targz_repo/AllBackup.log" >>/etc/motd
+            echo -e ">>> Backup_targz: $(date +'%Y-%m-%d %H:%M:%S') Backup failed! Please check the log: $targz_repo/AllBackup.log\n" >>/etc/motd
         fi
         exit 1
     fi
