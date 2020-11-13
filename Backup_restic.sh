@@ -4,6 +4,7 @@ backup_arr=("/archive")
 exclude_arr=("")
 restic_repo="/archive_cold/Backup_restic/"
 RESTIC_PASSWORD="b206shalab"
+broadcast="TRUE"
 ###############################################################################
 
 restic &>/dev/null
@@ -46,6 +47,9 @@ if [[ $? != 0 ]]; then
     ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
     echo -e "$ELAPSED" &>>$logfile
     echo -e "****************** Backup failed ******************\n\n\n" &>>$logfile
+    if [[ $broadcast == "TRUE" ]]; then
+        echo -e "Backup failed! Please check the log: $logfile" >>/etc/motd
+    fi
     exit 1
 else
     echo -e "Backup completed.\n" &>>$logfile
@@ -53,4 +57,3 @@ else
     echo -e "$ELAPSED" &>>$logfile
     echo -e "****************** Backup successfully completed ******************\n\n\n" &>>$logfile
 fi
-

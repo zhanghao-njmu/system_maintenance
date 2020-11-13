@@ -5,6 +5,7 @@ exclude_arr=("")
 targz_repo="/archive/system_backup/"
 bkNumber=4
 threads=16
+broadcast="TRUE"
 ###############################################################################
 
 pigz --version &>/dev/null
@@ -24,7 +25,7 @@ logfile=$bk_dir/Backup_individual.log
 error_pattern="(error)|(fatal)|(corrupt)|(interrupt)|(EOFException)|(no such file or directory)"
 
 bk_dir_existed=($(find $targz_repo -mindepth 1 -maxdepth 1 -type d -name "bk_*"))
-if (( ${#bk_dir_existed[*]} >= 1 )); then
+if ((${#bk_dir_existed[*]} >= 1)); then
     if (($(ls -d $targz_repo/bk_*/ | wc -l) >= $bkNumber)); then
         rm_num=$(($(ls -d $targz_repo/bk_*/ | wc -l) - $bkNumber + 1))
         ls -dt $targz_repo/bk_*/ | tail -$rm_num | xargs -i rm -rf {}
@@ -55,6 +56,9 @@ for target in "${backup_arr[@]}"; do
         echo -e "****************** Backup failed ******************\n\n\n" &>>$logfile
         cat $logfile >>$targz_repo/AllBackup.log
         rm -rf $bk_dir
+        if [[ $broadcast == "TRUE" ]]; then
+            echo -e "Backup failed! Please check the log: $targz_repo/AllBackup.log" >>/etc/motd
+        fi
         exit 1
     fi
 done
