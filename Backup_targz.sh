@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 ######################### Parameters ##########################################
-backup_arr=("/boot" "/data" "/etc" "/home" "/opt" "/reference" "/root" "/srv" "/usr" "/var")
+backup_arr=("/boot" "/etc" "/home" "/opt" "/root" "/srv" "/usr" "/var")
 exclude_arr=("")
-targz_repo="/mnt/usb2/Backup_targz"
+targz_repo="/archive/system_backup/"
 bkNumber=4
 threads=16
 ###############################################################################
