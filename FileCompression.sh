@@ -5,7 +5,6 @@ filetype_tocompress=("fastq" "fq" "vcf" "sam")
 threads=16
 ###############################################################################
 
-
 samtools &>/dev/null
 [ $? -eq 127 ] && {
     echo -e "Cannot find the command samtools.\n"
@@ -23,7 +22,12 @@ echo -e ">>> Compression start at $(date)" &>>$logfile
 echo -e "File types to compress: ${filetype_tocompress[*]}" &>>$logfile
 
 if [[ " ${filetype_tocompress[*]} " == *" sam "* ]]; then
-    filetype_tocompress=( "${filetype_tocompress[@]/sam}" )
+    filetype_tocompress=("${filetype_tocompress[@]/sam/}")
+    for filetype in "${filetype_tocompress[@]}"; do
+        [[ $filetype != "sam" ]] && new_array+=($filetype)
+    done
+    filetype_tocompress=("${new_array[@]}")
+    unset new_array
     arr=($(find "$data_dir" -type f | grep -iP ".*.sam$"))
     for file in "${arr[@]}"; do
         if [[ ! -L $file ]] && [[ -f $file ]]; then
