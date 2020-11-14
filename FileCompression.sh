@@ -19,7 +19,7 @@ error_pattern="(error)|(fatal)|(corrupt)|(interrupt)|(EOFException)|(no such fil
 SECONDS=0
 echo -e "\n\n****************** Start Compression ******************" &>>$logfile
 echo -e ">>> Compression start at $(date +'%Y-%m-%d %H:%M:%S')" &>>$logfile
-echo -e "File types to compress: ${filetype_tocompress[*]}" &>>$logfile
+echo -e "File types to compress: ${filetype_tocompress[*]}\n" &>>$logfile
 
 if [[ " ${filetype_tocompress[*]} " == *" sam "* ]]; then
     filetype_tocompress=("${filetype_tocompress[@]/sam/}")
