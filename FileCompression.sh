@@ -48,6 +48,8 @@ fi
 regex=$(printf -- "(.*.%s$)|" "${filetype_tocompress[@]}")
 regex=${regex%|}
 arr=($(find "$data_dir" -type f | grep -iP "$regex"))
+if [[ ${#arr[@]} != 0 ]];then
+
 for file in "${arr[@]}"; do
     if [[ ! -L $file ]] && [[ -f $file ]]; then
         echo -e "*** The file will be gzipped:\n$file" &>>$logfile | tee -a ${file}.compress.log
@@ -59,6 +61,9 @@ for file in "${arr[@]}"; do
         fi
     fi
 done
+else
+    echo -e "No file need to be compressed.\nCompression completed.\n" &>>$logfile
+fi
 
 ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
 echo -e "$ELAPSED" &>>$logfile
