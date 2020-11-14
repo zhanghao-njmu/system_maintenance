@@ -18,7 +18,7 @@ error_pattern="(error)|(fatal)|(corrupt)|(interrupt)|(EOFException)|(no such fil
 
 SECONDS=0
 echo -e "\n\n****************** Start Compression ******************" &>>$logfile
-echo -e ">>> Compression start at $(date)" &>>$logfile
+echo -e ">>> Compression start at $(date +'%Y-%m-%d %H:%M:%S')" &>>$logfile
 echo -e "File types to compress: ${filetype_tocompress[*]}" &>>$logfile
 
 if [[ " ${filetype_tocompress[*]} " == *" sam "* ]]; then
@@ -48,19 +48,19 @@ fi
 regex=$(printf -- "(.*.%s$)|" "${filetype_tocompress[@]}")
 regex=${regex%|}
 arr=($(find "$data_dir" -type f | grep -iP "$regex"))
-if [[ ${#arr[@]} != 0 ]];then
+if [[ ${#arr[@]} != 0 ]]; then
 
-for file in "${arr[@]}"; do
-    if [[ ! -L $file ]] && [[ -f $file ]]; then
-        echo -e "*** The file will be gzipped:\n$file" &>>$logfile | tee -a ${file}.compress.log
-        pigz -p $threads -f $file &>>$logfile | tee -a ${file}.compress.log
-        if [[ ! $(grep -iP "${error_pattern}" "${file}.compress.log") ]]; then
-            echo -e "Compression completed. New gzipped file:\n${file}.gz" &>>$logfile | tee -a ${file}.compress.log
-        else
-            echo -e "ERROR! Compression failed:\n$file" &>>$logfile | tee -a ${file}.compress.log
+    for file in "${arr[@]}"; do
+        if [[ ! -L $file ]] && [[ -f $file ]]; then
+            echo -e "*** The file will be gzipped:\n$file" &>>$logfile | tee -a ${file}.compress.log
+            pigz -p $threads -f $file &>>$logfile | tee -a ${file}.compress.log
+            if [[ ! $(grep -iP "${error_pattern}" "${file}.compress.log") ]]; then
+                echo -e "Compression completed. New gzipped file:\n${file}.gz" &>>$logfile | tee -a ${file}.compress.log
+            else
+                echo -e "ERROR! Compression failed:\n$file" &>>$logfile | tee -a ${file}.compress.log
+            fi
         fi
-    fi
-done
+    done
 else
     echo -e "No file need to be compressed.\nCompression completed.\n" &>>$logfile
 fi
