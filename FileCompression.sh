@@ -17,7 +17,7 @@ logfile=$script_folder/FileCompression.log
 error_pattern="(error)|(fatal)|(corrupt)|(interrupt)|(EOFException)|(no such file or directory)"
 
 SECONDS=0
-echo -e "\n\n****************** Start Compression ******************" &>>$logfile
+echo -e "****************** Start Compression ******************" &>>$logfile
 echo -e ">>> Compression start at $(date +'%Y-%m-%d %H:%M:%S')" &>>$logfile
 echo -e "File types to compress: ${filetype_tocompress[*]}\n" &>>$logfile
 
@@ -66,4 +66,4 @@ fi
 
 ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
 echo -e "$ELAPSED" &>>$logfile
-echo -e "****************** Compression successfully completed ******************\n\n" &>>$logfile
+echo -e "****************** Compression successfully completed ******************\n\n\n" &>>$logfile
