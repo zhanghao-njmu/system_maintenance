@@ -3,6 +3,7 @@
 data_dir="/archive"
 filetype_tocompress=("fastq" "fq" "vcf" "sam")
 threads=16
+broadcast="TRUE"
 ###############################################################################
 
 samtools &>/dev/null
@@ -40,6 +41,10 @@ if [[ " ${filetype_tocompress[*]} " == *" sam "* ]]; then
                 echo -e "SAM-to-BAM conversion completed. New bam file:\n${prefix}.bam" &>>$logfile | tee -a ${file}.compress.log
             else
                 echo -e "ERROR! SAM-to-BAM conversion failed:\n$file" &>>$logfile | tee -a ${file}.compress.log
+                if [[ $broadcast == "TRUE" ]]; then
+                    echo -e ">>> FileCompression(${data_dir}): $(date +'%Y-%m-%d %H:%M:%S') FileCompression failed! Please check the log: $logfile" >>/etc/motd
+                fi
+                exit 1
             fi
         fi
     done
@@ -57,6 +62,10 @@ if [[ ${#arr[@]} != 0 ]]; then
                 echo -e "Compression completed. New gzipped file:\n${file}.gz" &>>$logfile | tee -a ${file}.compress.log
             else
                 echo -e "ERROR! Compression failed:\n$file" &>>$logfile | tee -a ${file}.compress.log
+                if [[ $broadcast == "TRUE" ]]; then
+                    echo -e ">>> FileCompression(${data_dir}): $(date +'%Y-%m-%d %H:%M:%S') FileCompression failed! Please check the log: $logfile" >>/etc/motd
+                fi
+                exit 1
             fi
         fi
     done
@@ -67,3 +76,6 @@ fi
 ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
 echo -e "$ELAPSED" &>>$logfile
 echo -e "****************** Compression completed ******************\n\n\n" &>>$logfile
+if [[ $broadcast == "TRUE" ]]; then
+    echo -e ">>> FileCompression(${data_dir}): $(date +'%Y-%m-%d %H:%M:%S') FileCompression completed successfully!" >>/etc/motd
+fi
