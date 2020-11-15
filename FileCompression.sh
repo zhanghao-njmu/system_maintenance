@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ######################### Parameters ##########################################
-data_dir="/ssd"
+data_dir="/archive"
 filetype_tocompress=("fastq" "fq" "vcf" "sam")
 threads=16
 ###############################################################################

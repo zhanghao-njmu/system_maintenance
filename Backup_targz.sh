@@ -2,7 +2,7 @@
 ######################### Parameters ##########################################
 backup_arr=("/boot" "/etc" "/home" "/opt" "/root" "/srv" "/usr" "/var")
 exclude_arr=("")
-targz_repo="/archive/system_backup/"
+targz_repo="/archive/system_maintenance/system_backup/"
 bkNumber=4
 threads=16
 broadcast="TRUE"
