@@ -48,7 +48,7 @@ if [[ $? != 0 ]]; then
     echo -e "$ELAPSED" &>>$logfile
     echo -e "****************** Backup failed ******************\n\n\n" &>>$logfile
     if [[ $broadcast == "TRUE" ]]; then
-        echo -e ">>> Backup_restic(${backup_arr[*]}): $(date +'%Y-%m-%d %H:%M:%S') Backup failed! Please check the log: $restic_repo/AllBackup.log\n" >>/etc/motd
+        echo -e ">>> Backup_restic(${backup_arr[*]}): $(date +'%Y-%m-%d %H:%M:%S') Backup failed! Please check the log: $restic_repo/AllBackup.log" >>/etc/motd
     fi
     exit 1
 else
@@ -57,6 +57,6 @@ else
     echo -e "$ELAPSED" &>>$logfile
     echo -e "****************** Backup successfully completed ******************\n\n\n" &>>$logfile
     if [[ $broadcast == "TRUE" ]]; then
-        echo -e ">>> Backup_restic(${backup_arr[*]}): $(date +'%Y-%m-%d %H:%M:%S') Backup successfully completed!\n" >>/etc/motd
+        echo -e ">>> Backup_restic(${backup_arr[*]}): $(date +'%Y-%m-%d %H:%M:%S') Backup successfully completed!" >>/etc/motd
     fi
 fi

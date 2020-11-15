@@ -57,7 +57,7 @@ for target in "${backup_arr[@]}"; do
         cat $logfile >>$targz_repo/AllBackup.log
         rm -rf $bk_dir
         if [[ $broadcast == "TRUE" ]]; then
-            echo -e ">>> Backup_targz(${backup_arr[*]}): $(date +'%Y-%m-%d %H:%M:%S') Backup failed! Please check the log: $targz_repo/AllBackup.log\n" >>/etc/motd
+            echo -e ">>> Backup_targz(${backup_arr[*]}): $(date +'%Y-%m-%d %H:%M:%S') Backup failed! Please check the log: $targz_repo/AllBackup.log" >>/etc/motd
         fi
         exit 1
     fi
@@ -68,5 +68,5 @@ echo -e "$ELAPSED" &>>$logfile
 echo -e "****************** Backup successfully completed ******************\n\n\n" &>>$logfile
 cat $logfile >>$targz_repo/AllBackup.log
 if [[ $broadcast == "TRUE" ]]; then
-    echo -e ">>> Backup_targz(${backup_arr[*]}): $(date +'%Y-%m-%d %H:%M:%S') Backup successfully completed!\n" >>/etc/motd
+    echo -e ">>> Backup_targz(${backup_arr[*]}): $(date +'%Y-%m-%d %H:%M:%S') Backup successfully completed!" >>/etc/motd
 fi
