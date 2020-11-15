@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ######################### Parameters ##########################################
-data_dir="/archive"
-filetype_tocompress=("fastq" "fq" "sam")
+data_dir="/archive/lab"
+filetype_tocompress=("fastq" "fq" "vcf" "sam")
 threads=16
 broadcast="TRUE"
 ###############################################################################
