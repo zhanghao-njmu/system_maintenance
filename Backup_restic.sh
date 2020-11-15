@@ -57,6 +57,6 @@ else
     echo -e "$ELAPSED" &>>$logfile
     echo -e "****************** Backup successfully completed ******************\n\n\n" &>>$logfile
     if [[ $broadcast == "TRUE" ]]; then
-        echo -e "\n>>> Backup_restic: $(date +'%Y-%m-%d %H:%M:%S') Backup successfully completed!\n" >>/etc/motd
+        echo -e "\n>>> Backup_restic(${backup_arr[*]}): $(date +'%Y-%m-%d %H:%M:%S') Backup successfully completed!\n" >>/etc/motd
     fi
 fi

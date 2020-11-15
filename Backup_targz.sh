@@ -68,5 +68,5 @@ echo -e "$ELAPSED" &>>$logfile
 echo -e "****************** Backup successfully completed ******************\n\n\n" &>>$logfile
 cat $logfile >>$targz_repo/AllBackup.log
 if [[ $broadcast == "TRUE" ]]; then
-    echo -e "\n>>> Backup_targz: $(date +'%Y-%m-%d %H:%M:%S') Backup successfully completed!\n" >>/etc/motd
+    echo -e "\n>>> Backup_targz(${backup_arr[*]}): $(date +'%Y-%m-%d %H:%M:%S') Backup successfully completed!\n" >>/etc/motd
 fi

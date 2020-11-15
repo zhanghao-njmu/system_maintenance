@@ -64,6 +64,6 @@ else
     echo -e "$ELAPSED" &>>$logfile
     echo -e "****************** Backup successfully completed ******************\n\n\n" &>>$logfile
     if [[ $broadcast == "TRUE" ]]; then
-        echo -e "\n>>> Backup_duplicacy: $(date +'%Y-%m-%d %H:%M:%S') Backup successfully completed!\n" >>/etc/motd
+        echo -e "\n>>> Backup_duplicacy(${repository}): $(date +'%Y-%m-%d %H:%M:%S') Backup successfully completed!\n" >>/etc/motd
     fi
 fi
