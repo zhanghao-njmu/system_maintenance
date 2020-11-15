@@ -56,4 +56,7 @@ else
     ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
     echo -e "$ELAPSED" &>>$logfile
     echo -e "****************** Backup successfully completed ******************\n\n\n" &>>$logfile
+    if [[ $broadcast == "TRUE" ]]; then
+        echo -e "\n>>> Backup_restic: $(date +'%Y-%m-%d %H:%M:%S') Backup successfully completed!\n" >>/etc/motd
+    fi
 fi

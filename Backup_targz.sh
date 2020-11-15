@@ -67,3 +67,6 @@ ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECON
 echo -e "$ELAPSED" &>>$logfile
 echo -e "****************** Backup successfully completed ******************\n\n\n" &>>$logfile
 cat $logfile >>$targz_repo/AllBackup.log
+if [[ $broadcast == "TRUE" ]]; then
+    echo -e "\n>>> Backup_targz: $(date +'%Y-%m-%d %H:%M:%S') Backup successfully completed!\n" >>/etc/motd
+fi

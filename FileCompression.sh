@@ -66,4 +66,4 @@ fi
 
 ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
 echo -e "$ELAPSED" &>>$logfile
-echo -e "****************** Compression successfully completed ******************\n\n\n" &>>$logfile
+echo -e "****************** Compression completed ******************\n\n\n" &>>$logfile
