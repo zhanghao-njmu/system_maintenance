@@ -65,8 +65,8 @@ done
 
 ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
 echo -e "$ELAPSED" &>>$logfile
-echo -e "****************** Backup successfully completed ******************\n\n\n" &>>$logfile
+echo -e "****************** Backup completed successfully ******************\n\n\n" &>>$logfile
 cat $logfile >>$targz_repo/AllBackup.log
 if [[ $broadcast == "TRUE" ]]; then
-    echo -e ">>> Backup_targz(${backup_arr[*]}): $(date +'%Y-%m-%d %H:%M:%S') Backup successfully completed!" >>/etc/motd
+    echo -e ">>> Backup_targz(${backup_arr[*]}): $(date +'%Y-%m-%d %H:%M:%S') Backup completed successfully!" >>/etc/motd
 fi
