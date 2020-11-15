@@ -55,7 +55,7 @@ if [[ $? != 0 ]]; then
     echo -e "$ELAPSED" &>>$logfile
     echo -e "****************** Backup failed ******************\n\n\n" &>>$logfile
     if [[ $broadcast == "TRUE" ]]; then
-        echo -e "\n>>> Backup_duplicacy(${repository}): $(date +'%Y-%m-%d %H:%M:%S') Backup failed! Please check the log: $storage/AllBackup.log\n" >>/etc/motd
+        echo -e ">>> Backup_duplicacy(${repository}): $(date +'%Y-%m-%d %H:%M:%S') Backup failed! Please check the log: $storage/AllBackup.log\n" >>/etc/motd
     fi
     exit 1
 else
@@ -64,6 +64,6 @@ else
     echo -e "$ELAPSED" &>>$logfile
     echo -e "****************** Backup successfully completed ******************\n\n\n" &>>$logfile
     if [[ $broadcast == "TRUE" ]]; then
-        echo -e "\n>>> Backup_duplicacy(${repository}): $(date +'%Y-%m-%d %H:%M:%S') Backup successfully completed!\n" >>/etc/motd
+        echo -e ">>> Backup_duplicacy(${repository}): $(date +'%Y-%m-%d %H:%M:%S') Backup successfully completed!\n" >>/etc/motd
     fi
 fi
