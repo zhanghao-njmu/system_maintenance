@@ -2,8 +2,8 @@
 ######################### Parameters ##########################################
 backup_arr=("/boot" "/etc" "/home" "/opt" "/root" "/srv" "/usr" "/var")
 exclude_arr=("")
-targz_repo="/archive/system_maintenance/system_backup/"
-bkNumber=4
+targz_repo="/data/system_maintenance/system_backup/"
+bkNumber=5
 threads=16
 broadcast="TRUE"
 ###############################################################################
@@ -20,7 +20,8 @@ if [[ ! -d $targz_repo ]]; then
 fi
 
 ####### Start preocessing #######
-bk_dir=$targz_repo/bk_$(date +"%Y-%m-%d-%H.%M.%S")
+tag="bk_$(date +"%Y-%m-%d-%H.%M.%S")"
+bk_dir=$targz_repo/$tag
 logfile=$bk_dir/Backup_individual.log
 error_pattern="(error)|(fatal)|(corrupt)|(interrupt)|(EOFException)|(no such file or directory)"
 
@@ -57,7 +58,7 @@ for target in "${backup_arr[@]}"; do
         cat $logfile >>$targz_repo/AllBackup.log
         rm -rf $bk_dir
         if [[ $broadcast == "TRUE" ]]; then
-            echo -e ">>> Backup_targz(${backup_arr[*]}): $(date +'%Y-%m-%d %H:%M:%S') Backup failed! Please check the log: $targz_repo/AllBackup.log" >>/etc/motd
+            echo -e ">>> $(date +'%Y-%m-%d %H:%M:%S') Backup_targz(${backup_arr[*]}): Backup failed! Please check the log: $targz_repo/AllBackup.log" >>/etc/motd
         fi
         exit 1
     fi
@@ -68,5 +69,5 @@ echo -e "$ELAPSED" &>>$logfile
 echo -e "****************** Backup completed successfully ******************\n\n\n" &>>$logfile
 cat $logfile >>$targz_repo/AllBackup.log
 if [[ $broadcast == "TRUE" ]]; then
-    echo -e ">>> Backup_targz(${backup_arr[*]}): $(date +'%Y-%m-%d %H:%M:%S') Backup completed successfully!" >>/etc/motd
+    echo -e ">>> $(date +'%Y-%m-%d %H:%M:%S') Backup_targz(${backup_arr[*]}): Backup completed successfully! Snapshot: $tag" >>/etc/motd
 fi
