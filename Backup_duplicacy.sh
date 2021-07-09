@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 ######################### Parameters ##########################################
-snapshot_id="archive_backup"
-repository="/archive"
-storage="/archive_cold/Backup_duplicacy"
+snapshot_id="archive"
+repository="/data/lab"
+storage="/archive/lab_duplicacy"
 uploading_threads=16
 broadcast="TRUE"
 ###############################################################################
@@ -55,7 +55,7 @@ if [[ $? != 0 ]]; then
     echo -e "$ELAPSED" &>>$logfile
     echo -e "****************** Backup failed ******************\n\n\n" &>>$logfile
     if [[ $broadcast == "TRUE" ]]; then
-        echo -e ">>> Backup_duplicacy(${repository}): $(date +'%Y-%m-%d %H:%M:%S') Backup failed! Please check the log: $storage/AllBackup.log" >>/etc/motd
+        echo -e ">>> $(date +'%Y-%m-%d %H:%M:%S') Backup_duplicacy(${repository}): Backup failed! Please check the log: $storage/AllBackup.log" >>/etc/motd
     fi
     exit 1
 else
@@ -64,6 +64,6 @@ else
     echo -e "$ELAPSED" &>>$logfile
     echo -e "****************** Backup completed successfully ******************\n\n\n" &>>$logfile
     if [[ $broadcast == "TRUE" ]]; then
-        echo -e ">>> Backup_duplicacy(${repository}): $(date +'%Y-%m-%d %H:%M:%S') Backup completed successfully!" >>/etc/motd
+        echo -e ">>> $(date +'%Y-%m-%d %H:%M:%S') Backup_duplicacy(${repository}): Backup completed successfully! Snapshot: $tag" >>/etc/motd
     fi
 fi
