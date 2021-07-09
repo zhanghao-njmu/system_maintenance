@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ######################### Parameters ##########################################
-data_dir="/archive/lab"
+data_dir="/data/lab"
 filetype_tocompress=("fastq" "fq" "vcf" "sam")
 threads=16
 broadcast="TRUE"
@@ -63,7 +63,7 @@ if [[ ${#arr[@]} != 0 ]]; then
             else
                 echo -e "ERROR! Compression failed:\n$file" &>>$logfile | tee -a ${file}.compress.log
                 if [[ $broadcast == "TRUE" ]]; then
-                    echo -e ">>> FileCompression(${data_dir}): $(date +'%Y-%m-%d %H:%M:%S') FileCompression failed! Please check the log: $logfile" >>/etc/motd
+                    echo -e ">>> $(date +'%Y-%m-%d %H:%M:%S') FileCompression(${data_dir}): FileCompression failed! Please check the log: $logfile" >>/etc/motd
                 fi
                 exit 1
             fi
@@ -75,7 +75,8 @@ fi
 
 ELAPSED="Elapsed: $(($SECONDS / 3600))hrs $((($SECONDS / 60) % 60))min $(($SECONDS % 60))sec"
 echo -e "$ELAPSED" &>>$logfile
+echo -e "$(date +'%Y-%m-%d %H:%M:%S')"
 echo -e "****************** Compression completed ******************\n\n\n" &>>$logfile
 if [[ $broadcast == "TRUE" ]]; then
-    echo -e ">>> FileCompression(${data_dir}): $(date +'%Y-%m-%d %H:%M:%S') FileCompression completed successfully!" >>/etc/motd
+    echo -e ">>> $(date +'%Y-%m-%d %H:%M:%S') FileCompression(${data_dir}): FileCompression completed successfully!" >>/etc/motd
 fi
